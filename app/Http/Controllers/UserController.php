@@ -51,6 +51,7 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
+        dd($request->all());
         $response = $this->userService->store($request->all());
         Session::flash('message', $response->getContent());
         return redirect('/');
@@ -73,9 +74,10 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        //
+        $user = $this->userService->findOrFail($id);
+        return view('edit', compact('user', $user));
     }
 
     /**

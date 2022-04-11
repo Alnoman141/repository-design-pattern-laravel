@@ -20,3 +20,4 @@ use App\Http\Controllers\UserController;
 // });
 Route::get('/', [UserController::class, 'index'])->name("user.list");
 Route::post('/user', [UserController::class, 'store'])->name("user.store");
+Route::get('user/{id}', [UserController::class, 'edit'])->name("user.edit");

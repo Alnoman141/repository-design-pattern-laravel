@@ -47,6 +47,17 @@ trait CrudTrait {
         return $this->actionRepository->findAll($perPage, $relation, $orderBy);
     }
 
+    /** 
+     * @param $id
+     * @param null $relation
+     * @param array|null $orderBy
+     * @return Builder|Builder[]|Collection|Model|Model[]|mixed
+    */
+
+    public function findOrFail($id, $relation = null, array $orderBy = null){
+        return $this->actionRepository->findOrFail($id);
+    }
+
     /**
      * @param array $data
      * @return Model 
