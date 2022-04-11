@@ -30,7 +30,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userService->findAll();
+        // example of how find all params have to given
+        // $this->userService->findAll(10, ['relation1, relation2'], ['column' => 'id', 'direction' => 'desc'])
+        $users = $this->userService->findAll(10, null, ['column' => 'id', 'direction' => 'desc']);
         return view('welcome', compact('users', $users));
     }
 
@@ -52,7 +54,6 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        dd($request->all());
         $response = $this->userService->store($request->all());
         Session::flash('message', $response->getContent());
         return redirect('/');
