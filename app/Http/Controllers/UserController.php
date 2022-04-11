@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -87,9 +88,12 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, $id)
     {
-        //
+        $user = $this->userService->updateUser($id, $request->all());
+        Session::flash('message', 'User has been updated');
+        return redirect()->route('user.list');
+        
     }
 
     /**
@@ -98,8 +102,10 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        $response =  $this->userService->destroy($id);
+        Session::flash('message', $response->getContent());
+        return redirect('/');
     }
 }

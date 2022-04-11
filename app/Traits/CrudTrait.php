@@ -22,8 +22,9 @@ trait CrudTrait {
      * @param  AbstractBaseRepository $actionRepository
     */
 
-    public function setActionRepository(AbstractBaseRepository $actionRepository){
-        $this->actionRepository = $actionRepository; 
+    public function setActionRepository(AbstractBaseRepository $actionRepository) : void
+    {
+        $this->actionRepository = $actionRepository;
     }
 
     /**

@@ -48,12 +48,11 @@ class UserService{
      * @return mixed
     */
 
-    public function update($id, array $data){
+    public function updateUser($id, array $data){
         $user = $this->findOrFail($id);
         DB::transaction(function() use ($user, $data) {
             $this->update($user, $data);
         });
-
         return new Response("User has been updated successfully");
     }
 
@@ -65,7 +64,7 @@ class UserService{
 
     public function destroy($id){
         $user = $this->findOrFail($id);
-        DB::transation(function() use ($user) {
+        DB::transaction(function() use ($user) {
             $user->delete();
         });
 

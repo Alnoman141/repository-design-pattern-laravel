@@ -24,7 +24,7 @@
     <body class="antialiased">
         <div class="container mt-5"><!-- Button trigger modal -->
             <h1 class="text-center">Update User</h1>
-            <form class="row g-3 p-3" method="POST" action="/user">
+            <form class="row g-3 p-3" method="POST" action="{{ route('user.update', $user->id) }}">
                 @csrf
                 <div class="mb-3 row">
                     <label for="email" class="col-sm-2 col-form-label">Name</label>

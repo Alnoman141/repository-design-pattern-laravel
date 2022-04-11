@@ -47,7 +47,6 @@ abstract class AbstractBaseRepository implements RepositoryInterface {
 
         if(class_exists($this->modelName)){
             $this->model = new $this->modelName;
-            
             // check object is instanceof Illuminate\Database\Eloquente\Model
             if(!$this->model instanceof Model){
                 throw new Exception("{$this->modelName} must be the instance of Illuminate\Database\Eloquent\Model");
@@ -133,14 +132,12 @@ abstract class AbstractBaseRepository implements RepositoryInterface {
 
     public function update(Model $model, array $data){
         $fillAbleProperties = $this->model->getFillable();
-
         foreach ($data as $key => $value){
             // update only fillAble properties
             if(in_array($key, $fillAbleProperties)){
-                $model->key = $value;
+                $model[$key] = $value;
             }
         }
-
         // update the model
         $model->save();
 
