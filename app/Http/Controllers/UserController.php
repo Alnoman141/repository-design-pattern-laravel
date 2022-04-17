@@ -33,7 +33,7 @@ class UserController extends Controller
         // example of how find all params have to given
         // $this->userService->findAll(10, ['relation1, relation2'], ['column' => 'id', 'direction' => 'desc'])
         $users = $this->userService->findAll(10, null, ['column' => 'id', 'direction' => 'desc']);
-        return view('welcome', compact('users', $users));
+        return response()->json(['users' => $users], 200);
     }
 
     /**
@@ -54,9 +54,8 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        $response = $this->userService->store($request->all());
-        Session::flash('message', $response->getContent());
-        return redirect('/');
+        $this->userService->store($request->all());
+        return response()->json(['message' => 'New User Has Been Created Successfully.']);
     }
 
     /**
@@ -65,9 +64,10 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        //
+        $user = $this->userService->findOrFail($id);
+        return response()->json(['user' => $user], 200);
     }
 
     /**
