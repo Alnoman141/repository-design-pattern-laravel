@@ -63,69 +63,85 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
 import { Modal } from "bootstrap";
-    export default {
-        data(){
-            return {
-                users: [],
-                user: {},
-                modal: '',
-            }
-        },
-        mounted() {
-            this.getUsers();
-            this.modal = new Modal(document.getElementById('exampleModal'), {
-                keyboard: false
-            });
-        },
-        methods: {
-            // get all users list
-            getUsers(){
-                axios.get('/api/users').then(({ data }) => {
-                    this.users = data.users.data;
-                }).catch(error => {
-                    console.log(error.message);
-                })
-            },
-            // open modal for create new user
-            openModal(){
-                this.user = {};
-                this.modal.show();
-            },
-            // add a new user
-            sumbit(){
-                axios.post('api/user', this.user).then(response => {
-                    console.log(response.data.message);
-                    this.getUsers();
-                    this.user = {};
-                }).catch(error => {
-                    console.log(error.message);
-                })
-            },
-            // get a  user by id for update
-            getUserData(id){
-                this.modal.show();
-                axios.get('/api/user/' + id).then(({ data}) => {
-                    this.user = data.user;
-                })
-            },
-            updateUser(id){
-                axios.post('/api/user/' +id, this.user).then(response => {
-                    console.log(response.data.message);
-                    this.getUsers();
-                }).catch(error => {
-                    console.log(error.message);
-                })
-            },
-            deleteUser(id){
-                axios.get('/api/user/delete/' +id).then(response => {
-                    console.log(response.data.message);
-                    this.getUsers();
-                }).catch(error => {
-                    console.log(error.message);
-                })
-            }
-        }
+import axios from "axios";
+import { IsUser } from '../../types/user';
+
+@Component({
+  name: 'ExampleComponent',
+})
+export default class extends Vue {
+    public users: IsUser[] = [];
+    public user: IsUser = {
+        name: "",
+        email: "",
+        phone: 0
+    };
+    public modal: any;
+
+    created(){
+        this.getUsers();
     }
+
+    private async getUsers(){
+        await axios.get('/api/users').then(({ data }) => {
+            this.users = data.users.data;
+        }).catch(error => {
+            console.log(error.message);
+        })
+    }
+
+    public openModal(){
+        this.user = {
+            name: "",
+            email: "",
+            phone: 0
+        };
+
+        this.modal = new Modal(document.getElementById('exampleModal')!, {
+            keyboard: false
+        });
+        this.modal.show();
+    }
+
+    private sumbit(){
+        axios.post('api/user', this.user).then(response => {
+            console.log(response.data.message);
+            this.getUsers();
+            this.user = {
+                name: "",
+                email: "",
+                phone: 0
+            };
+        }).catch(error => {
+            console.log(error.message);
+        })
+    }
+    // get a  user by id for update
+    public getUserData(id: number){
+        this.modal.show();
+        axios.get('/api/user/' + id).then(({ data}) => {
+            this.user = data.user;
+        })
+    }
+    private updateUser(id: number){
+        axios.post('/api/user/' +id, this.user).then(response => {
+            console.log(response.data.message);
+            this.getUsers();
+        }).catch(error => {
+            console.log(error.message);
+        })
+    }
+    private deleteUser(id: number){
+        axios.get('/api/user/delete/' +id).then(response => {
+            console.log(response.data.message);
+            this.getUsers();
+        }).catch(error => {
+            console.log(error.message);
+        })
+    }
+}
+
 </script>

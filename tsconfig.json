@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "strict": true,
+        "module": "esnext", 
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+    },
+    "include": [
+        "resources/js/**/*"
+    ]
+}
