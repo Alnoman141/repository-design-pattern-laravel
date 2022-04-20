@@ -92,8 +92,7 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $user = $this->userService->updateUser($id, $request->all());
-        Session::flash('message', 'User has been updated');
-        return redirect()->route('user.list');
+        return response()->json(['message' => 'New User Has Been Created Successfully.']);
         
     }
 
@@ -106,7 +105,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         $response =  $this->userService->destroy($id);
-        Session::flash('message', $response->getContent());
-        return redirect('/');
+        return response()->json(['message' => 'User Has Been Deleted Successfully.']);
     }
 }
